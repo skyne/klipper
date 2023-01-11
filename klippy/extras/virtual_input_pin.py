@@ -1,4 +1,4 @@
-from pyparsing import * 
+from pyparsing import *
 
 import klippy
 
@@ -9,7 +9,8 @@ class VirtualInputPin:
 
     def get_state(self):
         x_list = [Symbol(f'x{i}') for i in range(len(self.pins))]
-        state = self.formula.subs(zip(x_list, [pin.get_state() for pin in self.pins]))
+        state = self.formula.subs(zip(x_list,
+                                      [pin.get_state() for pin in self.pins]))
         return state
 
 def get_mcu(mcu_id, formula, *pins_params):
@@ -35,7 +36,7 @@ def get_mcu(mcu_id, formula, *pins_params):
                 (or_, 2, opAssoc.LEFT),
                 ("or", 2, opAssoc.LEFT)
                 ])
-                
+
             # Adding parantheses support
             expr = expr | ( lpar + expr + rpar )
 
@@ -47,4 +48,8 @@ def get_mcu(mcu_id, formula, *pins_params):
 def load_config(config):
     formula = config.get('formula', '0')
     pins = config.get('pins', [])
-    klippy.register_virtual_pin('custom_formula_pin', 'custom_formula_pin', get_mcu, formula, *pins)
+    klippy.register_virtual_pin('custom_formula_pin',
+                                'custom_formula_pin',
+                                get_mcu,
+                                formula,
+                                *pins)
