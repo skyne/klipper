@@ -8,7 +8,7 @@ class VirtualInputPin:
         self.pins = pins
 
     def get_state(self):
-        x_list = [Symbol(f'x{i}') for i in range(len(self.pins))]
+        x_list = [Symbol('x'+i) for i in range(len(self.pins))]
         state = self.formula.subs(zip(x_list,
                                       [pin.get_state() for pin in self.pins]))
         return state
@@ -26,7 +26,7 @@ def get_mcu(mcu_id, formula, *pins_params):
             not_ = CaselessKeyword("not")
             lpar = Literal("(").suppress()
             rpar = Literal(")").suppress()
-            x_list = [Symbol(f'x{i}') for i in range(len(pins_params))]
+            x_list = [Symbol('x'+i) for i in range(len(pins_params))]
             expr = operatorPrecedence( x_list[0],
                 [
                 (not_, 1, opAssoc.RIGHT),
